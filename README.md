@@ -2,7 +2,7 @@
 # City-explorer
 
 **Author**: Anastasia Lebedeva, Aaron Imbrock
-**Version**: 1.0.2 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.0.3 
 
 ## Overview
 This app converts a location entered by the user into a latitude and longitude, then use those values to request weather information for that location and information from Evenbrite website. 

@@ -155,20 +155,11 @@ let lookupLocation = (location) =>{
     .then(result => {
       if (result.rowCount > 0){
         // if so return location data
-        let testcity =  new CitySQL(result.rows[0]);
-        return testcity;
+        return result.rows[0];
       }
     });
 };
 
-////constructor function for the new object from our database. We need it because cit_explorer database has different paths than our original geo.json file
-
-function CitySQL(data){
-  this.search_query = data.search_query;
-  this.formatted_query = data.formatted_query;
-  this.latitude = parseFloat(data.latitude);
-  this.longitude = parseFloat(data.longitude);
-}
 
 ///prototype function to City constructor function to post NEW data in database
 

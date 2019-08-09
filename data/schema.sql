@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS locations, weather;
+DROP TABLE IF EXISTS locations, weather, events;
 
 
 CREATE TABLE IF NOT EXISTS locations (
@@ -11,6 +11,16 @@ longitude NUMERIC(10,7)
 
 CREATE TABLE IF NOT EXISTS weather (
 id SERIAL PRIMARY KEY,
-forecast TEXT,
-time VARCHAR(255)
+forecast VARCHAR(500),
+time VARCHAR(255),
+location_id INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS events (
+id SERIAL PRIMARY KEY,
+link VARCHAR(500),
+name VARCHAR(255),
+event_date VARCHAR(255),
+summary VARCHAR(255),
+location_id INTEGER
 );

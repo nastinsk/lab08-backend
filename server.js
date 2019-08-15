@@ -28,7 +28,7 @@ client.on('error', err => console.error(err));
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
 //variable to store our city/location object
-let city; 
+let city;
 //=======================================================================================================//
 
 app.get('/location', getLocation);
@@ -90,7 +90,6 @@ function searchToLatLong(query){
       city.postLocation(query);
       return city;
     });
-
 }
 
 // constructor function to buld a city object instances, paths based on the geo.json file
@@ -99,8 +98,7 @@ function City(query, data){
   this.formatted_query = data.formatted_address;
   this.latitude = data.geometry.location.lat;
   this.longitude = data.geometry.location.lng;
-  this.id; 
-
+  this.id;
 }
 
 ///prototype function to City constructor function to post NEW data in database
@@ -114,19 +112,17 @@ City.prototype.postLocation = function (){
     .then (result => {
       this.id = result.rows[0].id;
     });
-
 };
 
 //=============================================================================================================//
-
 
 //============================== Weather feature =================================================================//
 
 //route to handle user request and send the response from our database or DarkSky
 function getWeather(req, res){
-  
+
   //check if this lcoation exist in database
-  lookupWeather(req.query.data)
+  lookupData(req.query.data, 'weather')
     .then(location => {
 
       if (location){
@@ -148,6 +144,7 @@ function getWeather(req, res){
       }
     });
 }
+
 function searchWeatherDarksky (req, res){
   const api_url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${req.query.data.latitude},${req.query.data.longitude}`;
   return superagent.get(api_url)
@@ -157,15 +154,14 @@ function searchWeatherDarksky (req, res){
       let weatherSummaries = weatherDisplay.body.daily.data.map((day) => {
         return new Weather(day);  //create new Weather object and push it to weather Summaries
       });
-      
+
       weatherSummaries.forEach((day)=>{
         cacheWeather(day, city.id);
       });
-      
+
       res.send(weatherSummaries); //send WeatherSummaries array as a response
     });
 }
-
 
 function cacheWeather(day, id){
   let SQL = 'INSERT INTO weather (forecast, time, location_id) VALUES ($1, $2, $3)';
@@ -173,7 +169,6 @@ function cacheWeather(day, id){
 
   return client.query(SQL, values)
     .then (result => console.log(`weather location id ${id} and result ${result} inserted `));
-
 }
 
 //weather constructor build based on the darksky.json file paths
@@ -182,27 +177,13 @@ function Weather(day) {
   this.time = new Date(day.time * 1000).toString().slice(0, 15); //converting UNix timestamp to regular time
 }
 
-//check if data from weaether SQL DB contains requested location
-let lookupWeather = (location) =>{
-  let SQL = 'SELECT * FROM weather WHERE location_id=$1';
-  let values = [location.id];
-  return client.query(SQL, values)
-    .then(result => {
-      if (result.rowCount > 0){
-        // if so return location data
-        return result.rows;
-
-      }
-    });
-};
-
 //=============================================================================================================//
 
-
 //==================================EVENTBRITE feature===========================================================================//
+
 // route to handle user request and send the response from our database or EVENTBRITE
 function getEvents(req, res){
-  lookupEvents(req.query.data)
+  lookupData(req.query.data, 'events')
     .then(location => {
 
       if (location){
@@ -218,42 +199,26 @@ function getEvents(req, res){
            .then(location =>{
              console.log('EVEtbrite DATA used');
              res.send(location);
-             
-
         });
       }
     });
 }
 
-//check if data from events SQL DB contains requested location
-let lookupEvents = (location) =>{
-  let SQL = 'SELECT * FROM events WHERE location_id=$1';
-  let values = [location.id];
-  return client.query(SQL, values)
-    .then(result => {
-      if (result.rowCount > 0){
-        // if so return location data
-        return result.rows;
-
-      }
-    });
-};
-
 function searchEventsEventbrite(req, res){
   const api_url = `https://www.eventbriteapi.com/v3/events/search?token=${process.env.EVENTBRITE_API_KEY}&location.address=${req.query.data.search_query}`;
-  
+
   return superagent.get(api_url)
 
     .then(result => {
-      
+
       let eventSummaries = result.body.events.map((event) => {
        return new Event(event);  //create new Event object and push it to Event Summaries
-       
+
       });
-      
+
       eventSummaries.forEach((event) => {
         cacheEvents(event, city.id);
-       
+
       });
 
       res.send(eventSummaries); //send Eventbrite summaries array as a response
@@ -277,10 +242,22 @@ function Event(data){
   this.summary = data.summary;
 }
 
-
 //=============================================================================================================//
 
+//============================================HELPER FUNCTIONS=================================================//
 
+//check if data from SQL DB table contains requested location information
 
+let lookupData = (location, dbName) =>{
+  let SQL = `SELECT * FROM ${dbName} WHERE location_id=$1`;
+  let values = [location.id];
+  return client.query(SQL, values)
+    .then(result => {
+      if (result.rowCount > 0){
+        // if so return location data
+        return result.rows;
+      }
+    });
+};
 
-
+//=============================================================================================================//

@@ -1,8 +1,7 @@
-
 # City-explorer
 
-**Author**: Anastasia Lebedeva, Aaron Imbrock
-**Version**: 1.0.3 
+**Author**: Anastasia Lebedeva, PT, Mae-mae Zhou
+**Version**: 1.0.4 
 
 ## Overview
 This app converts a location entered by the user into a latitude and longitude, then use those values to request weather information for that location and information from Evenbrite website. 
@@ -17,62 +16,41 @@ Then print the name of the location to display information about it.
 
 ## Architecture
 HTML, CSS, jQuery, Java Script used for the front end of this app. 
-Java Script, Express, Dotenv, Superagent, Cors for the backend
+Java Script, Express, Dotenv, Superagent, Cors for the backend.
+PostgreSQL for Database feature.
 
 
 ## Change Log
 
-# Feature #1: Data formatting
+# Feature #1: Database
 ***
-## As a user, I want the application to provide properly formatted data so that I can view similar data for any location I choose. NOTE: Do this first with the mock data before refactoring to an API call.
+## As a user, I want the application to perform quickly so that I can search for locations frequently and reliably.
 ***
-* Estimate of time needed to complete: **1 hour**
-* Start time: **6:30pm**
-* Finish time: **7:00**
-* Actual time needed to complete: **30 minutes**
+* Estimate of time needed to complete: **3 hour**
+* Start time: **2:00pm**
+* Finish time: **5:00pm**
+* Actual time needed to complete: **3 hours**
 
-## **Driver: Anna ** 
-## **Navigator: Aaron** 
 ***
 
-# Feature #2:
+# Feature #2: Server
 ***
-##  Locations: As a user, I want to enter the name of a location so that I do not need to look up the latitude and longitude every time I learn about a new location.
+##  As a user, I want the application to perform quickly so that I can search for locations frequently and reliably.
 ***
 * Estimate of time needed to complete: **2hour**
 * Start time: **7:00pm**
-* Finish time: **9:00pm**
-* Actual time needed to complete: **2hours**
+* Finish time: **10:00pm**
+* Actual time needed to complete: **3hours**
 
-## **Driver: Anna ** 
-## **Navigator: Aaron** 
 ***
 
-# Feature #3:
+# Feature #3: Heroku deployment
 ***
-## Weather: As a user, I want to request current weather information so that I can learn more about the typical weather patterns in the location.
-***
-* Estimate of time needed to complete: **2hours**
-* Start time: ** **
-* Finish time: ** **
-* Actual time needed to complete: ** **
+* Estimate of time needed to complete: **1hour**
+* Start time: **10pm**
+* Finish time: **11pm**
+* Actual time needed to complete: **1hour**
 
-## **Driver:** 
-## **Navigator:** 
 ***
-
-# Feature #4:
-***
-## EventBrite: As a user, I want to request information about events in the area so that users can learn about what is taking place in the location.
-***
-* Estimate of time needed to complete: ** 1hour**
-* Start time: ** **
-* Finish time: ** **
-* Actual time needed to complete: ** **
-
-## **Driver:** 
-## **Navigator:** 
-***
-
 
 
